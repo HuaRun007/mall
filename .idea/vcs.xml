@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../laravel55-layuiadmin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vendor/zizaco/entrust" vcs="Git" />
+  </component>
+</project>
