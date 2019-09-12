@@ -48,6 +48,7 @@
         @permission('member.manage.del')
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         @endpermission
+        <a class="layui-btn layui-btn-green layui-btn-xs" lay-event="reset">重置密码</a>
     </script>
     @permission('member.manage.change')
     <script type="text/html" id="titleTpl">
@@ -67,7 +68,6 @@
     </script>
 
     <script>
-
         layui.use('table', function(){
             var table = layui.table;
             var form = layui.form
@@ -149,6 +149,17 @@
                                     obj.del(); //删除对应行（tr）的DOM结构
                                 }
                                 },700);
+
+                        },'json');
+
+                    });
+                }else if(layEvent == 'reset'){
+                    layer.confirm('确定重置用户密码？', function(index){
+                        $.get("/admin/ResetPassword/"+data.id,function (result) {
+                            setTimeout(function(){
+                                layer.close(index);
+                                layer.msg(result.message);
+                            },700);
 
                         },'json');
 

@@ -133,6 +133,7 @@ Route::group(['namespace'=>'Admin', 'prefix'=> 'admin', 'middleware'=>['permissi
     Route::post('member_change','MemberController@edit');
     Route::post('member_del', 'MemberController@delMember');
     Route::post('member_restore', 'MemberController@member_restore');
+    Route::get('ResetPassword/{id}', 'MemberController@ResetPassword');
 });
 
 

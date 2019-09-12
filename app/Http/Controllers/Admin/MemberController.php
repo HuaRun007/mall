@@ -153,4 +153,13 @@ class MemberController extends Controller
 
         return $m3_request->toJson();
     }
+
+    public function ResetPassword($id)
+    {
+        $member = Member::find($id);
+        $member->password = bcrypt('123456');
+        $member->save();
+
+        M3Request::responseOK();
+    }
 }
