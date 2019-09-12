@@ -47,63 +47,63 @@
                     状态
                 </label>
                 <div class="layui-input-inline">
-                    <input type="checkbox"    lay-skin="switch" lay-text="启用|禁用"
+                    <input type="checkbox" lay-skin="switch" lay-text="启用|禁用"
                            lay-filter="member_edit_switch" {{$member_data->status==1 ?  'checked' : ''}}>
-                    <input type="hidden" name="status" id="L_status" value="{{$member_data->status}}" >
+                    <input type="hidden" name="status" id="L_status" value="{{$member_data->status}}">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                 </label>
-                <button  class="layui-btn" lay-filter="edit" lay-submit="">
+                <button class="layui-btn" lay-filter="edit" lay-submit="">
                     确定
                 </button>
             </div>
         </form>
     </div>
     <script>
-        layui.use(['form','layer'], function(){
+        layui.use(['form', 'layer'], function () {
             $ = layui.jquery;
             var form = layui.form
-                ,layer = layui.layer;
+                , layer = layui.layer;
 
-            form.on('switch(member_edit_switch)', function (data){
+            form.on('switch(member_edit_switch)', function (data) {
                 $('#L_status').val(this.checked ? 1 : 0);
             });
 
             //监听提交
-            form.on('submit(edit)', function(data){
+            form.on('submit(edit)', function (data) {
 
                 //发异步，把数据提交给php
                 $.ajax({
-                    type:'post',
-                    dataType:'json',
-                    url:'/admin/member_change',
-                    data:{data:data.field,_token:"{{csrf_token()}}"},
-                    success:function (result) {
-                            if(result.code!=0){
-                                layer.alert(result.message, {icon: 5},function () {
-                                    // 获得frame索引
-                                    var index = parent.layer.getFrameIndex(window.name);
-                                    window.parent.location.reload();
-                                    //关闭当前frame
-                                    parent.layer.close(index);
-                                });
-                                return false;
-                            }else{
-                                layer.alert(result.message, {icon: 6},function () {
-                                    // 获得frame索引
-                                    var index = parent.layer.getFrameIndex(window.name);
-                                    window.parent.location.reload();
-                                    //关闭当前frame
-                                    parent.layer.close(index);
-                                });
-                                return false;
-                            }
+                    type: 'post',
+                    dataType: 'json',
+                    url: '/admin/member_change',
+                    data: {data: data.field, _token: "{{csrf_token()}}"},
+                    success: function (result) {
+                        if (result.code != 0) {
+                            layer.alert(result.message, {icon: 5}, function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                window.parent.location.reload();
+                                //关闭当前frame
+                                parent.layer.close(index);
+                            });
+                            return false;
+                        } else {
+                            layer.alert(result.message, {icon: 6}, function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                window.parent.location.reload();
+                                //关闭当前frame
+                                parent.layer.close(index);
+                            });
+                            return false;
+                        }
                     },
-                    error:function () {
-                        
+                    error: function () {
+
                     }
                 });
 
@@ -113,10 +113,4 @@
 
         });
     </script>
-    {{--<script>var _hmt = _hmt || []; (function() {--}}
-            {{--var hm = document.createElement("script");--}}
-            {{--hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";--}}
-            {{--var s = document.getElementsByTagName("script")[0];--}}
-            {{--s.parentNode.insertBefore(hm, s);--}}
-        {{--})();</script>--}}
 @endsection

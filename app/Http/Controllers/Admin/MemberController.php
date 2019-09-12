@@ -25,23 +25,24 @@ class MemberController extends Controller
     {
         return view('admin.member.delmember_list');
     }
+
     public function getMemberList(Request $request)
     {
 
         $model = Member::query();
 
-        if ($request->get('created_at')){
-            $model = $model->where('created_at','>=', $request->get('created_at'));
+        if ($request->get('created_at')) {
+            $model = $model->where('created_at', '>=', $request->get('created_at'));
         }
-        if ($request->get('nickname')){
-            $model = $model->where('nickname','like','%'.$request->get('nickname').'%');
+        if ($request->get('nickname')) {
+            $model = $model->where('nickname', 'like', '%' . $request->get('nickname') . '%');
         }
-        $res = $model->orderBy('id','desc')->paginate($request->get('limit',30))->toArray();
+        $res = $model->orderBy('id', 'desc')->paginate($request->get('limit', 30))->toArray();
         $data = [
-            'code' => 0,
+            'code'  => 0,
             'msg'   => '正在请求中...',
             'count' => $res['total'],
-            'data'  => $res['data']
+            'data'  => $res['data'],
         ];
         return response()->json($data);
     }
@@ -55,10 +56,10 @@ class MemberController extends Controller
         $member->status = $change_value;
         $result = $member->save();
         $m3 = new M3Request();
-        if($result){
+        if ($result) {
             $m3->code = 0;
             $m3->message = '更新成功！';
-        }else{
+        } else {
             $m3->code = 3;
             $m3->message = '更新失败！';
         }
@@ -84,17 +85,13 @@ class MemberController extends Controller
         $member->status = $input['status'];
         $member->integral = $input['integral'];
 
-        $result = $member->save();
-        $m3 = new M3Request();
-        if($result){
-            $m3->code = 0;
-            $m3->message = '用户信息更新成功！';
-        }else{
-            $m3->code = 3;
-            $m3->message = '用户信息更新失败！';
+
+        if ($member->save()) {
+            M3Request::responseOK();
+        } else {
+            M3Request::responseError();
         }
 
-        return $m3->toJson();
 
     }
 
@@ -104,10 +101,10 @@ class MemberController extends Controller
         $member->delete();
 
         $m3_request = new M3Request();
-        if($member->trashed()){
+        if ($member->trashed()) {
             $m3_request->code = 0;
             $m3_request->message = '删除成功!';
-        }else{
+        } else {
             $m3_request->code = 3;
             $m3_request->message = '删除失败，请重试！';
         }
@@ -120,33 +117,33 @@ class MemberController extends Controller
 
         $model = Member::onlyTrashed();
 
-        if ($request->get('created_at')){
-            $model = $model->where('created_at','>=', $request->get('created_at'));
+        if ($request->get('created_at')) {
+            $model = $model->where('created_at', '>=', $request->get('created_at'));
         }
-        if ($request->get('nickname')){
-            $model = $model->where('nickname','like','%'.$request->get('nickname').'%');
+        if ($request->get('nickname')) {
+            $model = $model->where('nickname', 'like', '%' . $request->get('nickname') . '%');
         }
-        $res = $model->orderBy('id','desc')->paginate($request->get('limit',30))->toArray();
+        $res = $model->orderBy('id', 'desc')->paginate($request->get('limit', 30))->toArray();
         $data = [
-            'code' => 0,
+            'code'  => 0,
             'msg'   => '正在请求中...',
             'count' => $res['total'],
-            'data'  => $res['data']
+            'data'  => $res['data'],
         ];
         return response()->json($data);
     }
 
-    public  function member_restore(Request $request)
+    public function member_restore(Request $request)
     {
 
         $member = Member::onlyTrashed();
-        $result = $member->where('id',$request->get('ids'))->restore();
+        $result = $member->where('id', $request->get('ids'))->restore();
 
         $m3_request = new M3Request();
-        if($result){
+        if ($result) {
             $m3_request->code = 0;
             $m3_request->message = '恢复成功!';
-        }else{
+        } else {
             $m3_request->code = 3;
             $m3_request->message = '恢复失败，请重试！';
         }
