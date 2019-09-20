@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Service;
 
 use App\Entity\Comment;
 use App\Entity\OrderDetail;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 
@@ -18,7 +18,7 @@ class OrderController extends Controller
         $detail_id = $request->get('detail_id');
         $detail = OrderDetail::find($detail_id);
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($detail->reviewed_at!=null){
             $m3_request->code=1;
             $m3_request->message = '该商品已经评价过了！';

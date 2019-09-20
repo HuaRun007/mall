@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Entity\CartItem
+ *
+ * @mixin \Eloquent
+ */
 class CartItem extends Model
 {
     //

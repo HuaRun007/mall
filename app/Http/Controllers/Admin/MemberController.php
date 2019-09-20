@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entity\Member;
 use App\Http\Controllers\Controller;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -55,16 +55,11 @@ class MemberController extends Controller
         $member = Member::find($member_id);
         $member->status = $change_value;
         $result = $member->save();
-        $m3 = new M3Request();
-        if ($result) {
-            $m3->code = 0;
-            $m3->message = '更新成功！';
-        } else {
-            $m3->code = 3;
-            $m3->message = '更新失败！';
+        if (!$result) {
+            JsonService::responseError();
         }
 
-        return $m3->toJson();
+         JsonService::responseOK();
 
     }
 
@@ -87,9 +82,9 @@ class MemberController extends Controller
 
 
         if ($member->save()) {
-            M3Request::responseOK();
+            JsonService::responseOK();
         } else {
-            M3Request::responseError();
+            JsonService::responseError();
         }
 
 
@@ -100,7 +95,7 @@ class MemberController extends Controller
         $member = Member::find($request->get('ids'));
         $member->delete();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if ($member->trashed()) {
             $m3_request->code = 0;
             $m3_request->message = '删除成功!';
@@ -139,7 +134,7 @@ class MemberController extends Controller
         $member = Member::onlyTrashed();
         $result = $member->where('id', $request->get('ids'))->restore();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if ($result) {
             $m3_request->code = 0;
             $m3_request->message = '恢复成功!';
@@ -157,6 +152,6 @@ class MemberController extends Controller
         $member->password = bcrypt('123456');
         $member->save();
 
-        M3Request::responseOK();
+        JsonService::responseOK();
     }
 }

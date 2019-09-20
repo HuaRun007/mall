@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\Order;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -121,7 +121,7 @@ class OrderController extends Controller
 
         $res = $order->save();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0;
             $m3_request->message = '修改成功';

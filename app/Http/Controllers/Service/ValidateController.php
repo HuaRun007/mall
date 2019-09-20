@@ -13,7 +13,7 @@ use App\Entity\Member;
 use App\Entity\TempEmail;
 use App\Entity\TempPhone;
 use App\Http\Controllers\Controller;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use App\Tool\SMS\SendTemplateSMS;
 use Illuminate\Http\Request;
 
@@ -24,7 +24,7 @@ class ValidateController extends Controller
 
     public function sendSMS(Request $request){
         $phone = $request->input('phone');
-        $m3 = new M3Request();
+        $m3 = new JsonService();
         if($phone == ''){
             $m3->code = 1;
             $m3->message = "手机号不能为空";

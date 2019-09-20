@@ -4,6 +4,12 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Entity\Order
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entity\OrderDetail[] $order_detail
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
     protected $table = 'orders';

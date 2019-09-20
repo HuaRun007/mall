@@ -12,7 +12,7 @@ namespace App\Http\Controllers\Service;
 use App\Entity\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 class LoginController extends Controller
@@ -28,7 +28,7 @@ class LoginController extends Controller
             $this->username = 'email';
         }
         dd($this->username);
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if(Auth::attempt(['username' => $username, 'password' => $password]))
         {
             if($request->user()->status != 1){

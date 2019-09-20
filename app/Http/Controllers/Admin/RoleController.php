@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entity\Permission;
 use App\Entity\Role;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +61,7 @@ class RoleController extends Controller
         $role->name = $data['name'];
         $role->display_name = $data['display_name'];
         $role->description = $data['description'];
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($role->save()){
             $m3_request->code = 0;
             $m3_request->message = '更新角色成功';
@@ -117,7 +117,7 @@ class RoleController extends Controller
         $role->description = $data['description'];
         $role = $role->save();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if(!empty($role)){
             $m3_request->code = 0;
             $m3_request->message = '添加角色成功！';
@@ -138,7 +138,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         $permissions = $request->get('permissions');
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if (empty($permissions)){
             DB::table('permission_role')->where('role_id',$id)->delete();
             $m3_request->code = 0;
@@ -158,7 +158,7 @@ class RoleController extends Controller
        $id = $request->get('ids');
        $res = Role::destroy($id);
 
-       $m3_request = new M3Request();
+       $m3_request = new JsonService();
        if($res){
            $m3_request->code = 0;
            $m3_request->message = '删除角色成功！';

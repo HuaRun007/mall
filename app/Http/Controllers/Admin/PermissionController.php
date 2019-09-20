@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\Permission;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -49,7 +49,7 @@ class PermissionController extends Controller
         $permission->description = $data['description'];
         $permission->parent_id = $data['parent_id'];
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($permission->save()){
             $m3_request->code = 0;
             $m3_request->message = '添加权限成功';
@@ -104,7 +104,7 @@ class PermissionController extends Controller
         $permission->description = $data['description'];
         $permission->parent_id = $data['parent_id'];
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($permission->save()){
             $m3_request->code = 0;
             $m3_request->message = '修改权限成功';

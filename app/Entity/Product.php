@@ -4,6 +4,12 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Entity\Product
+ *
+ * @property-read \App\Entity\Category $category
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     //

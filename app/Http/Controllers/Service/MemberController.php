@@ -7,7 +7,7 @@ use App\Entity\Member;
 use App\Entity\TempEmail;
 use App\Entity\TempPhone;
 use App\Models\M3Email;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use App\Tool\UUID;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,7 +28,7 @@ class MemberController extends Controller
     {
         $data = $request->get('data');
         //手机号注册
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($data['register_type']==1){
 
             if($data['phone_code'] =='' ||strlen($data['phone_code'])!=6){
@@ -123,7 +123,7 @@ class MemberController extends Controller
         $password = $request->get('password', '');
 
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         //判断
 
         $member = null;
@@ -214,7 +214,7 @@ class MemberController extends Controller
 
         $res = $member->save();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         if($res){
             $request->session()->set('member',$member);
@@ -234,7 +234,7 @@ class MemberController extends Controller
         $password = $request->get('password');
         $res = Hash::check($password,$member->password);
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0;
             $m3_request->message = true;

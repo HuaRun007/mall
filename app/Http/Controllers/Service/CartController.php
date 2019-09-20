@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Service;
 
 use App\Entity\Cart;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -43,7 +43,7 @@ class CartController extends Controller
             }
         }
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         $m3_request->code = 0;
         $m3_request->message = '添加成功';
 
@@ -53,7 +53,7 @@ class CartController extends Controller
 
     public function deleteCart(Request $request)
     {
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         $product_ids = $request->input('id', '');
 
@@ -91,7 +91,7 @@ class CartController extends Controller
     {
         $id = $request->get('id');
         $member = $request->session()->get('member');
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         if(!$member){
          $cart = $request->cookie('cart');

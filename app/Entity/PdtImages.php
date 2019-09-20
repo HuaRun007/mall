@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Entity\PdtImages
+ *
+ * @mixin \Eloquent
+ */
 class PdtImages extends Model
 {
     //

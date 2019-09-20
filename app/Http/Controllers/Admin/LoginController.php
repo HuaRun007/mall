@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +40,7 @@ class LoginController extends Controller
         $username = isset($data['username']) ? $data['username'] : null;
         $password = isset($data['password']) ? $data['password'] : null;
         $remember = isset($data['remember']) ? $data['remember'] : null;
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if(Auth::attempt(['username' => $username, 'password' => $password], $remember))
         {
             if($request->user()->status != 1){

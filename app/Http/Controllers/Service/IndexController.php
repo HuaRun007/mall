@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Service;
 
 use App\Entity\Product;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +14,7 @@ class IndexController extends Controller
         $product = $request->get('product','');
         $products = Product::where('name', 'like', '%'.$product.'%')->get(['name','id'])->toArray();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($products){
             $m3_request->code = 0;
             $m3_request->message = $products;

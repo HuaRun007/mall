@@ -6,7 +6,7 @@ use App\Entity\Category;
 use App\Entity\Order;
 use App\Entity\OrderDetail;
 use App\Entity\Product;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -74,7 +74,7 @@ class OrderController extends Controller
 
         $request->session()->set('cart_products',$products);
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         $m3_request->code = 0;
         $m3_request->message = '成功！';
@@ -119,7 +119,7 @@ class OrderController extends Controller
         $order->status = 4;
         $res = $order->save();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0;
             $m3_request->message = '确认收货成功！';

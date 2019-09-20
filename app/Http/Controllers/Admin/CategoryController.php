@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\Category;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -55,7 +55,7 @@ class CategoryController extends Controller
             $category->path = $category->id;
         }
         $category->save();
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0;
             $m3_request->message = '添加分类成功！';
@@ -111,7 +111,7 @@ class CategoryController extends Controller
 
         $res = $category->save();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0;
             $m3_request->message = '修改分类成功！';
@@ -134,7 +134,7 @@ class CategoryController extends Controller
     {
         $res = Category::where('parent_id', $id)->get()->toArray();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if(!empty($res)){
             $m3_request->code = 3;
             $m3_request->message = '删除失败，此分类下面有子分类';

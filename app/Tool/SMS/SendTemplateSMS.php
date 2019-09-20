@@ -9,7 +9,7 @@
 namespace App\Tool\SMS;
 
 
-use App\Models\M3Request;
+use App\Models\JsonService;
 
 class SendTemplateSMS
 {
@@ -41,7 +41,7 @@ class SendTemplateSMS
 
 
         // 发送模板短信
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         $result = $rest->sendTemplateSMS($to,$datas,$tempId);
 
         if($result == NULL){

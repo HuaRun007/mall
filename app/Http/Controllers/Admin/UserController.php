@@ -12,7 +12,7 @@ namespace App\Http\Controllers\Admin;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Http\Controllers\Controller;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -54,7 +54,7 @@ class UserController extends Controller
         $user = User::find($user_id);
         $user->status = $change_value;
         $result = $user->save();
-        $m3 = new M3Request();
+        $m3 = new JsonService();
         if($result){
             $m3->code = 0;
             $m3->message = '更新成功！';
@@ -84,7 +84,7 @@ class UserController extends Controller
             $data['password'] = substr(md5($request->get('password')),3,20);
         }
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($user->update($data)){
             $m3_request->code = 0;
             $m3_request->message = '更新用户成功';
@@ -120,7 +120,7 @@ class UserController extends Controller
 
         $roles = $request->get('roles');
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if(empty($roles)){
             $user->detachRoles($roles);
         }else{
@@ -147,7 +147,7 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
         $user = User::where('username',$data['username'])->first();
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         if($user){
             $m3_request->code = 1;
@@ -189,7 +189,7 @@ class UserController extends Controller
     {
         $data = $request->get('data');
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
 
         if(is_array($data)){
             //批量删除

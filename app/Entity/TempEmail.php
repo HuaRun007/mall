@@ -11,6 +11,11 @@ namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Entity\TempEmail
+ *
+ * @mixin \Eloquent
+ */
 class TempEmail extends Model
 {
     protected $table = 'temp_email';

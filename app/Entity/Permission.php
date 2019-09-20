@@ -11,6 +11,12 @@ namespace App\Entity;
 
 use Zizaco\Entrust\EntrustPermission;
 
+/**
+ * App\Entity\Permission
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entity\Role[] $roles
+ * @mixin \Eloquent
+ */
 class Permission extends EntrustPermission
 {
     //

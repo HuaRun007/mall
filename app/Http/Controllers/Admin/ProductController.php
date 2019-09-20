@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Entity\Category;
 use App\Entity\PdtImages;
 use App\Entity\Product;
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -65,7 +65,7 @@ class ProductController extends Controller
         $data = $request->only([ 'category_id', 'name', 'price', 'preview', 'on_sale', 'rating', 'sold_count', 'description']);
         $res = Product::create($data);
 //        dd($data['name']);
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
 
             $image_data = $request->get('image_src');
@@ -133,7 +133,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         $res = $product->update($data);
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
 
             $image_data = $request->get('image_src');

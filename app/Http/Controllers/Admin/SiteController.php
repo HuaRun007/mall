@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\M3Request;
+use App\Models\JsonService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -121,7 +121,7 @@ class SiteController extends Controller
         $data['updated_at'] = date('Y-m-d H:i:s',time());
         $res = DB::table('site_image')->insert($data);
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0 ;
             $m3_request->message = '添加成功！';
@@ -141,7 +141,7 @@ class SiteController extends Controller
 
         $res = DB::table('site_image')->delete($id);
 
-        $m3_request = new M3Request();
+        $m3_request = new JsonService();
         if($res){
             $m3_request->code = 0 ;
             $m3_request->message = '删除成功！';

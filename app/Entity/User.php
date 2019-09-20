@@ -6,6 +6,17 @@ namespace App\Entity;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+/**
+ * App\Entity\User
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Entity\Role[] $roles
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Entity\User onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Entity\User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Entity\User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use EntrustUserTrait {

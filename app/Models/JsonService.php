@@ -9,7 +9,7 @@
 namespace App\Models;
 
 
-class M3Request
+class JsonService
 {
     public $code;
     public $message;
