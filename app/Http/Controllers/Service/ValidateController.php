@@ -11,54 +11,45 @@ namespace App\Http\Controllers\Service;
 
 use App\Entity\Member;
 use App\Entity\TempEmail;
-use App\Entity\TempPhone;
 use App\Http\Controllers\Controller;
 use App\Models\JsonService;
 use App\Tool\SMS\SendTemplateSMS;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 
 class ValidateController extends Controller
 {
 
 
-    public function sendSMS(Request $request){
+    public function sendSMS(Request $request)
+    {
         $phone = $request->input('phone');
-        $m3 = new JsonService();
-        if($phone == ''){
-            $m3->code = 1;
-            $m3->message = "手机号不能为空";
-            return $m3->toJson();
+        if ($phone == '') {
+            JsonService::responseError("手机号不能为空");
         }
 
         $sendTemplateSMS = new SendTemplateSMS();
         $charset = '1234567890'; //随机因子
-        $_len    = strlen($charset)-1;
-        $code    = '';
+        $_len = strlen($charset) - 1;
+        $code = '';
 
-        for ($i = 0;$i<6;$i++){
-            $code .= $charset[mt_rand(0,$_len)];
+        for ($i = 0; $i < 6; $i++) {
+            $code .= $charset[mt_rand(0, $_len)];
         }
 
-        $request = $sendTemplateSMS->SendTemplateSMS($phone, array($code,'5'),'1');
+        $request = $sendTemplateSMS->SendTemplateSMS($phone, array($code, '5'), '1');
 
-        if($request->code != 0){
-            $m3->code = 5;
-            $m3->message = '发送失败';
 
-            return $m3->toJson();
+        if ($request->code != 0) {
+            JsonService::responseError('发送失败');
+        }
+        $res = Redis::setex('Phone:' . $phone, 5 * 60, $code);
+
+        if($res){
+            JsonService::responseOK();
         }
 
-        $temp_phone = new TempPhone();
-        $temp_phone->phone = $phone;
-        $temp_phone->code = $code;
-        $temp_phone->deadline = date('Y-m-d H:i:s',time()+10*60);
-        $temp_phone->save();
-
-        $m3->code  = 0;
-        $m3->message = '发送成功';
-
-        return $m3->toJson();
     }
 
     public function validateEmail(Request $request)
@@ -67,21 +58,20 @@ class ValidateController extends Controller
         $code = $request->input('code', '');
 
         $tempEmail = TempEmail::where('member_id', $member_id)->first();
-        if($tempEmail == null){
+        if ($tempEmail == null) {
             return '验证异常！';
         }
 
-        if($tempEmail->code == $code){
-            if(time() > strtotime($tempEmail->deadline)){
+        if ($tempEmail->code == $code) {
+            if (time() > strtotime($tempEmail->deadline)) {
                 return '该链接已失效！';
-
             }
             $member = Member::find($member_id);
             $member->active = 1;
             $member->save();
 
             return redirect('/login');
-        } else{
+        } else {
             return '连接已失效！';
         }
 
