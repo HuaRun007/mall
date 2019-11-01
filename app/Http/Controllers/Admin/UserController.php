@@ -81,7 +81,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->get('user_id'));
 
         if ($request->get('password')){
-            $data['password'] = substr(md5($request->get('password')),3,20);
+            $data['password'] = bcrypt($request->get('password'));
         }
 
         $m3_request = new JsonService();
@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $roles = Role::get();
-//        $hasrole = $user->roles();
+
         foreach ($roles as $role){
             $role->own = $user->hasRole($role->name) ? 'checkde' : '';
         }
@@ -114,7 +114,6 @@ class UserController extends Controller
      */
     public function role(Request $request,$id)
     {
-
 
         $user = User::find($id);
 

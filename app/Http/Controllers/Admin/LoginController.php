@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\JsonService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -30,6 +30,7 @@ class LoginController extends Controller
     /**
      * Post login credentials
      *
+     * @param Request $request
      * @return Response
      */
     public function login(Request $request)
