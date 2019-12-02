@@ -19,10 +19,6 @@
                         <li><a href="#2l">待收货</a></li>
                         <li><a href="#2">已关闭</a></li>
                     </ul>
-                    {{--<form action="#" method="get" class="fr clearfix">--}}
-                        {{--<input type="text" name="" id="" value="" placeholder="请输入商品名称、订单号" />--}}
-                        {{--<input type="button" name="" id="" value="" />--}}
-                    {{--</form>--}}
                 </div>
                 @foreach($orders as $item)
                         <div class="dkuang deng">
@@ -60,7 +56,7 @@
                                 </p>
                                 <p class="fr">
                                     @if($item->paystatus == 2)
-                                        <a href="/pay/{{$item->no}}" target="_blank">立即支付</a>
+                                        <a href="/pay/{{$item->id}}" target="_blank">立即支付</a>
                                     @elseif($item->paystatus == 1 && $item->status == 1)
                                         <a href="javascript:;" target="_blank">待后台确认</a>
                                     @elseif($item->paystatus == 1 && $item->status == 2)

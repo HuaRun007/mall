@@ -151,6 +151,14 @@
             </div>
 
             <div class="layui-form-item">
+                <label for="" class="layui-form-label">库存</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="stock" required="" lay-verify="number"
+                           autocomplete="off" class="layui-input" value="{{$product_data->stock}}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <label for="" class="layui-form-label">销量</label>
                 <div class="layui-input-inline">
                     <input type="text"  name="sold_count" required="" lay-verify="number"

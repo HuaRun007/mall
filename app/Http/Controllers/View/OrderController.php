@@ -53,12 +53,12 @@ class OrderController extends Controller
         return view('alipay',compact('orderno'));
     }
 
-    public function toPay_no(Request $request,$no)
+    public function toPay_no($id)
     {
 
-        $orderno = $no;
+        $order = Order::find($id);
 
-        return view('alipay_again',compact('orderno'));
+        return view('alipay_again',compact('order'));
     }
 
     public function buy(Request $request)

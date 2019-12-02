@@ -28,7 +28,7 @@ Route::group(['namespace'=> 'View'],function (){
     Route::get('/orders', 'OrderController@index')->middleware('checklogin');
     Route::post('/receipt', 'OrderController@receipt');
     Route::get('/pay', 'OrderController@toPay')->middleware('checklogin');
-    Route::get('/pay/{no}', 'OrderController@toPay_no')->middleware('checklogin');
+    Route::get('/pay/{id}', 'OrderController@toPay_no')->middleware('checklogin');
     Route::get('/order/detail/{id}', 'OrderController@toDetail')->middleware('checklogin');
     Route::get('/cart', 'CartController@index');
     Route::get('/myinfo', 'MyinfoController@index')->middleware('checklogin');
@@ -62,9 +62,6 @@ Route::group(['namespace'=>'Service', 'prefix'=>'service'],function(){
     Route::post('editInfo','MemberController@editInfo');
     Route::post('/confimpassword','MemberController@confimpassword');
     Route::post('/changepassword','MemberController@changepassword');
-
-
-
 });
 
 
@@ -174,6 +171,7 @@ Route::group(['namespace'=>'Admin', 'prefix'=>'admin','middleware'=>['permission
     Route::get('product/edit/{id}', 'ProductController@edit');
     Route::post('product/update/{id}', 'ProductController@update');
     Route::post('product/delete/{id}', 'ProductController@destroy');
+    Route::post('product/ms_add', 'ProductController@msAdd');
 });
 
 //订单管理

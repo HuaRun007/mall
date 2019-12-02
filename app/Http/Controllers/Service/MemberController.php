@@ -6,8 +6,8 @@ use App\Entity\Cart;
 use App\Entity\Member;
 use App\Entity\TempEmail;
 use App\Http\Controllers\Controller;
+use App\Mail\SendMail;
 use App\Models\JsonService;
-use App\Models\M3Email;
 use App\Tool\UUID;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -55,9 +55,9 @@ class MemberController extends Controller
                 JsonService::responseOK('注册成功');
             }
         } else {
-            $member = Member::where('email', $data['email'])->first();
+            $member = Member::where(['email'=>$data['email']]);
             if (!empty($member->id)) {
-                JsonService::responseError("该邮箱已注册");
+                JsonService::responseError("该邮箱已注册，请查看邮箱内的邮件进行验证");
             }
 
             $member = new Member();
@@ -70,11 +70,7 @@ class MemberController extends Controller
 
             //发送邮件
             $uuid = UUID::create();
-            $m3_email = new M3Email();
-            $m3_email->to = $data['email'];
-            $m3_email->cc = '15212119227@163.com';
-            $m3_email->subject = '华润测试验证';
-            $m3_email->content = '请于24小时点击该链接完成验证。' . $_SERVER['HTTP_HOST'] . '/service/validate_email'
+            $content = '请于24小时点击该链接完成验证。' . $request->server('HTTP_ORIGIN') . '/service/validate_email'
                 . '?member_id=' . $user_id
                 . '&code=' . $uuid;
 
@@ -84,11 +80,7 @@ class MemberController extends Controller
             $tempEmail->deadline = date('Y-m-d H:i:s', time() + 24 * 60 * 60);
             $tempEmail->save();
 
-            Mail::send('email_register', ['m3_email' => $m3_email], function ($m) use ($m3_email) {
-                $m->to($m3_email->to, '尊敬的用户')
-                    ->cc($m3_email->cc)
-                    ->subject($m3_email->subject);
-            });
+            Mail::to($data['email'])->queue(new SendMail($content));
 
             JsonService::responseOK("注册成功！");
         }
@@ -120,7 +112,6 @@ class MemberController extends Controller
             return $m3_request->toJson();
         } else {
             //判断密码是否正确
-
             if (!(Hash::check($password, $member->password))) {
                 $m3_request->code = 3;
                 $m3_request->message = '密码不正确';
@@ -236,6 +227,6 @@ class MemberController extends Controller
         if ($res) {
             $request->session()->forget('member');
         }
-        echo '';
+        JsonService::responseOK();
     }
 }

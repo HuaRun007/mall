@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\Order;
+use App\Http\Controllers\Controller;
 use App\Models\JsonService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -23,95 +24,74 @@ class OrderController extends Controller
     {
         $model = Order::query();
 
-        if($request->get('created_at')){
-            $model = $model->where('created_at',$request->get('created_at'));
+        if ($request->get('created_at')) {
+            $model = $model->where('created_at', $request->get('created_at'));
         }
 
-        if($request->get('paystatus')){
-            $model = $model->where('paystatus',$request->get('paystatus'));
+        if ($request->get('paystatus')) {
+            $model = $model->where('paystatus', $request->get('paystatus'));
         }
 
-        if($request->get('no')){
-            $model = $model->where('no','like', '%'.$request->get('no').'%');
+        if ($request->get('no')) {
+            $model = $model->where('no', 'like', '%' . $request->get('no') . '%');
         }
 
-        if($request->get('status')){
-            $model = $model->where('status',$request->get('status'));
+        if ($request->get('status')) {
+            $model = $model->where('status', $request->get('status'));
         }
 
-        if($request->get('payment_method')){
-            $model = $model->where('payment_method',$request->get('payment_method'));
+        if ($request->get('payment_method')) {
+            $model = $model->where('payment_method', $request->get('payment_method'));
         }
 
         $res = $model->paginate($request->get('limit', 30))->toArray();
 
         $data = [
-            'code' => 0,
-            'msg'  => '正在请求中...',
+            'code'  => 0,
+            'msg'   => '正在请求中...',
             'count' => $res['total'],
-            'data' => $res['data']
+            'data'  => $res['data'],
         ];
 
         return response()->json($data);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
         $order_data = Order::with('order_detail')->find($id);
         $order_look = 1;
-        return view('admin.order.order_edit',compact('order_data','order_look'));
+        return view('admin.order.order_edit', compact('order_data', 'order_look'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
         $order_data = Order::with('order_detail')->find($id);
         $order_look = 0;
-        return view('admin.order.order_edit',compact('order_data','order_look'));
+        return view('admin.order.order_edit', compact('order_data', 'order_look'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only(['address','payment_method','remark','status']);
+        $data = $request->only(['address', 'payment_method', 'remark', 'status']);
         $order = Order::find($id);
 
         $order->address = $data['address'];
@@ -122,10 +102,10 @@ class OrderController extends Controller
         $res = $order->save();
 
         $m3_request = new JsonService();
-        if($res){
+        if ($res) {
             $m3_request->code = 0;
             $m3_request->message = '修改成功';
-        }else{
+        } else {
             $m3_request->code = 0;
             $m3_request->message = '修改失败';
         }
@@ -136,14 +116,18 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
     public function destroy($id)
     {
         //
     }
 
+    public function miaoShaView()
+    {
+        $miaosha_data = Order::with('order_detail')->find();
 
+    }
 
 }

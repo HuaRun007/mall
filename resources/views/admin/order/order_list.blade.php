@@ -40,7 +40,7 @@
               <option value="0">已作废</option>
             </select>
           </div>
-          <input type="text" name="no"  id="no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+            <label for="no"></label><input type="text" name="no" id="no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
           <button type="button" class="layui-btn"  lay-submit="" id="order_serach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -108,7 +108,7 @@
               ,layer =layui.layer;
           //搜索
           $("#order_serach").click(function () {
-              var created_at = $("#created_at").val()
+              var created_at = $("#created_at").val();
               var no = $("#no").val();
               var status = $("#status").val();
               var paystatus = $("#paystatus").val();

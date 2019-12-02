@@ -62,6 +62,12 @@
                             <cite>权限管理</cite>
                         </a>
                     </li >
+                    <li>
+                        <a _href="/admin/menu">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜单管理</cite>
+                        </a>
+                    </li >
                 </ul>
             </li>
             @endpermission
